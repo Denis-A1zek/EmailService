@@ -1,0 +1,6 @@
+@EmailService.Web_HostAddress = http://localhost:5179
+
+GET {{EmailService.Web_HostAddress}}/api/mails
+Accept: application/json
+
+###
