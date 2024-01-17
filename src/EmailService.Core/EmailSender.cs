@@ -50,7 +50,7 @@ public class EmailSender : IEmailSender
             AddressValidation(e)
         ));
 
-        email.Subject = email.Subject;
+        email.Subject = message.Subject;
 
         var bodyBuilder = new BodyBuilder();
         bodyBuilder.TextBody = message.Body;
