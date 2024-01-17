@@ -61,8 +61,13 @@ public class EmailSender : IEmailSender
 
     private MailboxAddress AddressValidation(string address)
     {
-        var isAddress = MailboxAddress.TryParse(address, out var result);
+        var isAddress = MailboxAddress
+            .TryParse(new ParserOptions()
+                        { AllowAddressesWithoutDomain = false }, 
+                        address, 
+                        out var result);
+        
         return isAddress ? result 
-            : throw new MessageGenerationException();
+            : throw new MessageGenerationException($"Email: ({address}) is not valid");
     } 
 }

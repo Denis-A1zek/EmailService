@@ -2,4 +2,7 @@
 
 public class MessageGenerationException : Exception
 {
+    public MessageGenerationException(string? message) : base(message)
+    {
+    }
 }
