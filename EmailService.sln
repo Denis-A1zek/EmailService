@@ -5,8 +5,6 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{504A2D33-4A29-456C-8FCB-31DA63CD756D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3CC0E591-EA2B-4B23-89DA-8CCB3F2DEC87}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailService.Core", "src\EmailService.Core\EmailService.Core.csproj", "{759BCCE6-384E-43AD-B2E5-5FB5DFC1D852}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailService.Web", "src\EmailService.Web\EmailService.Web.csproj", "{783382AC-0D16-4830-944F-C4BC50A7F436}"
