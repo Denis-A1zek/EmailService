@@ -4,6 +4,6 @@ namespace EmailService.Core;
 
 public interface IEmailSender
 {
-    Task<SendingResult> SendMailAsync(Message message);
+    Task<SendingResult> SendMailAsync(SingleMessage message);
     public Task<SendingResult[]> SendMailsAsync(BulkMessage bulkMessage);
 }

@@ -2,7 +2,7 @@
 
 public record class SendingResult
 {
-    public SendingResult(Message message)
+    public SendingResult(SingleMessage message)
     {
         Message = message;
         CreationDate = DateTimeOffset.UtcNow;
@@ -10,7 +10,7 @@ public record class SendingResult
         FailedMessage = string.Empty;
     }
 
-    public SendingResult(Message message, string failedMessage)
+    public SendingResult(SingleMessage message, string failedMessage)
     {
         Message = message;
         CreationDate = DateTimeOffset.UtcNow;
@@ -18,14 +18,14 @@ public record class SendingResult
         FailedMessage = failedMessage;
     }
 
-    public Message Message { get; set; }
+    public SingleMessage Message { get; set; }
     public DateTimeOffset CreationDate { get; set; }
     public Result Result { get; set; }
     public string FailedMessage { get; set; }
 
-    public static SendingResult Success(Message message)
+    public static SendingResult Success(SingleMessage message)
         => new SendingResult(message);
 
-    public static SendingResult Failed(Message message, string failedMessage)
+    public static SendingResult Failed(SingleMessage message, string failedMessage)
         => new SendingResult(message, failedMessage);
 }

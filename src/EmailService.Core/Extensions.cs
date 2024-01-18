@@ -1,4 +1,5 @@
-﻿using EmailService.Core.Services;
+﻿using EmailService.Core.Contracts;
+using EmailService.Core.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,9 @@ public static class Extensions
 {
     public static IServiceCollection AddCore(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IEmailSender, EmailSender>();
+        services.AddTransient<IEmailSender, EmailSender>();
+        
+        services.AddScoped<IMailDispatcher, MailDispatcher>();
 
         services.AddOptions<SmtpOptions>().BindConfiguration(nameof(SmtpOptions));
 

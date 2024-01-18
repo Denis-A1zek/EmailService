@@ -6,7 +6,7 @@ public record MessageContent
     public string Body { get; init; }
 }
 
-public record Message : MessageContent
+public record SingleMessage : MessageContent
 {
     public string Recipient { get; set; }
 }

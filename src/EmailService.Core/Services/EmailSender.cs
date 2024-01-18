@@ -15,7 +15,7 @@ public class EmailSender : IEmailSender
     public EmailSender(IOptions<SmtpOptions> smtpOptions)
         => _smtpOptions = smtpOptions.Value;
 
-    public async Task<SendingResult> SendMailAsync(Message message)
+    public async Task<SendingResult> SendMailAsync(SingleMessage message)
     {
         using SmtpClient smtp = new();
         try
@@ -51,7 +51,7 @@ public class EmailSender : IEmailSender
                 .WithDegreeOfParallelism(DegreeOfParallelism)
                 .Select((recipient, i) =>
                 {
-                    return SendMailAsync(new Message()
+                    return SendMailAsync(new SingleMessage()
                     {
                         Body = bulkMessage.Body,
                         Subject = bulkMessage.Subject,
@@ -62,7 +62,7 @@ public class EmailSender : IEmailSender
         return Task.WhenAll(_sendingTask);
     }
 
-    private MimeMessage GenerateMimeMessage(Message message)
+    private MimeMessage GenerateMimeMessage(SingleMessage message)
     {
         MimeMessage email = new MimeMessage();
 
