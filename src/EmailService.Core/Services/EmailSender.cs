@@ -6,6 +6,9 @@ using MimeKit.Text;
 
 namespace EmailService.Core.Services;
 
+/// <summary>
+/// Отправитель сообщения по E-mail 
+/// </summary>
 public class EmailSender : IEmailSender
 {
     private readonly SmtpOptions _smtpOptions;
@@ -15,6 +18,11 @@ public class EmailSender : IEmailSender
     public EmailSender(IOptions<SmtpOptions> smtpOptions)
         => _smtpOptions = smtpOptions.Value;
 
+    /// <summary>
+    /// Отправляет письмо одному отправителю
+    /// </summary>
+    /// <param name="message">Контент письма</param>
+    /// <returns>Результат отправки</returns>
     public async Task<SendingResult> SendMailAsync(SingleMessage message)
     {
         using SmtpClient smtp = new();
@@ -44,6 +52,11 @@ public class EmailSender : IEmailSender
         return SendingResult.Success(message);
     }
 
+    /// <summary>
+    /// Отправляет письмо группе адресов
+    /// </summary>
+    /// <param name="bulkMessage">Контент письма</param>
+    /// <returns>Результат отправки</returns>
     public Task<SendingResult[]> SendMailsAsync(BulkMessage bulkMessage)
     {
         var _sendingTask = bulkMessage.Recipients
@@ -62,6 +75,7 @@ public class EmailSender : IEmailSender
         return Task.WhenAll(_sendingTask);
     }
 
+    #region Private
     private MimeMessage GenerateMimeMessage(SingleMessage message)
     {
         MimeMessage email = new MimeMessage();
@@ -86,4 +100,6 @@ public class EmailSender : IEmailSender
         return isAddress ? result
             : throw new MessageGenerationException($"Email: ({address}) is not valid");
     }
+
+    #endregion
 }

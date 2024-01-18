@@ -2,10 +2,12 @@
 using EmailService.Core.Contracts;
 using EmailService.Domain;
 using EmailService.Infrastructure;
-using Microsoft.EntityFrameworkCore;
 
 namespace EmailService.Core.Services;
 
+/// <summary>
+/// Диспетчер сообщений
+/// </summary>
 public class MailDispatcher : IMailDispatcher
 {
     private readonly IEmailSender _emailSender;
@@ -23,6 +25,13 @@ public class MailDispatcher : IMailDispatcher
         _mailingHistoryRepository = _unitOfWork.GetRepository<MailingHistory>();
     }
 
+    /// <summary>
+    /// Отправляет письмо и сохраняет результат
+    /// </summary>
+    /// <param name="subject">Тема</param>
+    /// <param name="body">Тело</param>
+    /// <param name="recipients">Получатели</param>
+    /// <returns>Идентификатор сформированного сообщения в базе</returns>
     public async Task<Guid> SendAsync
         (string subject, string body, IEnumerable<string> recipients)
     {
@@ -43,7 +52,6 @@ public class MailDispatcher : IMailDispatcher
             Subject = subject
         };
         await _messageRepository.InsertAsync(message);
-
         var mailingHistorys = sendingResults.Select(s =>
         {
             return new MailingHistory()
@@ -56,14 +64,17 @@ public class MailDispatcher : IMailDispatcher
                 MessageId = message.Id
             };
         });
-
         await _mailingHistoryRepository.InsertRangeAsync(mailingHistorys);
-
         await _unitOfWork.SaveChangesAsync();
 
         return message.Id;
     }
 
+
+    /// <summary>
+    /// Получить все детали о сообщении
+    /// </summary>
+    /// <returns>Детали о сообщении</returns>
     public async Task<IEnumerable<MessageDetails>> GetMailsAsync()
     {
         var mailingHistory = await _mailingHistoryRepository.GroupByAsync(m => m.Message);
@@ -72,15 +83,15 @@ public class MailDispatcher : IMailDispatcher
             MessageId = m.Key.Id,
             Subject = m.Key.Subject,
             Body = m.Key.Body,
-            SendedLogs = m.Select(l 
+            SendedLogs = m.Select(l
                 => new SendedLogs()
-                    {
-                        LogId = l.Id,
-                        Email = l.Email,
-                        FailedMessage = l.FailedMessage,
-                        Result = l.Result,
-                        CreatedDate = l.CreatedDate
-                    })
+                {
+                    LogId = l.Id,
+                    Email = l.Email,
+                    FailedMessage = l.FailedMessage,
+                    Result = l.Result,
+                    CreatedDate = l.CreatedDate
+                })
         });
     }
 }
