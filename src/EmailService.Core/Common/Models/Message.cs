@@ -1,8 +1,17 @@
 ﻿namespace EmailService.Core.Common;
 
-public record Message
+public record MessageContent
 {
     public string Subject { get; init; }
     public string Body { get; init; }
-    public IReadOnlyCollection<string> Recipients { get; init; }
+}
+
+public record Message : MessageContent
+{
+    public string Recipient { get; set; }
+}
+
+public record BulkMessage : MessageContent
+{
+    public IEnumerable<string> Recipients { get; set; }
 }
