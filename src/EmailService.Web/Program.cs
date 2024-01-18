@@ -1,4 +1,5 @@
 using EmailService.Core;
+using EmailService.Infrastructure;
 using EmailService.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddPostgreSql(builder.Configuration);
 builder.Services.AddCore(builder.Configuration);
 
 var app = builder.Build();

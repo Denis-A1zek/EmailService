@@ -1,5 +1,8 @@
 ﻿using EmailService.Core;
 using EmailService.Core.Common;
+using EmailService.Core.Contracts;
+using EmailService.Domain;
+using EmailService.Infrastructure;
 using EmailService.Web.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,30 +12,21 @@ namespace EmailService.Web.Controllers;
 [Route("api/mails")]
 public class MailsController : ControllerBase
 {
-    private readonly IEmailSender _emailSender;
+    private readonly IMailDispatcher _mailDispatcher;
 
-    public MailsController(IEmailSender emailSender)
-        => _emailSender = emailSender;
+    public MailsController(IMailDispatcher mailDispatcher)
+        => _mailDispatcher = mailDispatcher;
 
     [HttpGet]
-    public async Task<ActionResult<string>> Get()
+    public async Task<ActionResult<string>> GetAll()
     {
-        
-        return Ok("dfs");
+        return Ok(await _mailDispatcher.GetMailsAsync());
     }
 
     [HttpPost]
     public async Task<IActionResult> Post(MailRequest mailRequest)
-    {
-        var sendingResults = await _emailSender
-                                    .SendMailsAsync(new BulkMessage()
-                                    {
-                                        Subject = mailRequest.Subject,
-                                        Body = mailRequest.Body,
-                                        Recipients = mailRequest.Recipients
-                                    });
-
-
-        return Ok(1);
-    }
+        => Ok(await _mailDispatcher.SendAsync(
+                mailRequest.Subject,
+                mailRequest.Body,
+                mailRequest.Recipients));
 }
