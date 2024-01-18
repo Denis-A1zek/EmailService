@@ -1,6 +1,9 @@
 using EmailService.Core;
 using EmailService.Infrastructure;
-using EmailService.Web.Middleware;
+using EmailService.Web;
+using EmailService.Web.Middleware.Extensions;
+using FluentValidation;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddPostgreSql(builder.Configuration);
 builder.Services.AddCore(builder.Configuration);
 
+builder.Services.AddValidatorsFromAssemblies(new[] { Assembly.GetExecutingAssembly() });
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,7 +30,7 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
