@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.MigrateDatabase();
+app.MigrateDatabase();
 
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
