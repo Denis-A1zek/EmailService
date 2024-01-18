@@ -10,7 +10,7 @@
    2. docker compose up
    ~~~
 3. Миграция базы данных произойдёте автоматически при первом запуске приложения.
-4. Если не была изменена переменная "ASPNETCORE_ENVIRONMENT=Development" в файле dockercompos.yml, то можно протестировать приложение при помощи Swagger
+4. Если не была изменена переменная "ASPNETCORE_ENVIRONMENT=Development" в файле dockercompose.yml, то можно протестировать приложение при помощи Swagger
 
 ## Локально
 1. Установить зависимости PostgreSQL и .NET 8+.
