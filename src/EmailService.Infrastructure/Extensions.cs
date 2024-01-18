@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EmailService.Infrastructure;
 
-public static class Extensions
+public static class InfrastuctureExtensions
 {
     public static IServiceCollection AddPostgreSql(this IServiceCollection services, IConfiguration configuration)
     {
@@ -18,5 +18,10 @@ public static class Extensions
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
+    }
+
+    public static void MigrateDatabase(PostgreDbContext context)
+    {
+        context.Database.Migrate();
     }
 }

@@ -1,4 +1,4 @@
-@EmailService.Web_HostAddress = http://localhost:5179
+@EmailService.Web_HostAddress = https://localhost:7103
 
 GET {{EmailService.Web_HostAddress}}/api/mails
 Accept: application/json
@@ -6,14 +6,10 @@ Accept: application/json
 ###
 
 POST {{EmailService.Web_HostAddress}}/api/mails
-Accept: application/json
 Content-Type: application/json
-Accept-Language: en-US,en;q=0.5
 
 {
-  "body": "string",
-  "subject": "string",
-  "recipients": [
-    "string"
+  //MailRequest
 }
+
 ###

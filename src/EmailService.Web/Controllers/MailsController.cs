@@ -1,9 +1,4 @@
-﻿using EmailService.Core;
-using EmailService.Core.Common;
-using EmailService.Core.Contracts;
-using EmailService.Domain;
-using EmailService.Infrastructure;
-using EmailService.Web.Common;
+﻿using EmailService.Core.Contracts;
 using EmailService.Web.Common.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +15,24 @@ public class MailsController : ControllerBase
     public MailsController(IMailDispatcher mailDispatcher, IValidator<MailRequest> validator)
         => (_mailDispatcher,_validator) = (mailDispatcher, validator);
 
+    /// <summary>
+    /// Получить все сообщения и историю отправки
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<string>> GetAll()
         => Ok(await _mailDispatcher.GetMailsAsync());
 
+    /// <summary>
+    /// Отпраляет сообщение получателям и сохраняет историю отправки
+    /// </summary>
+    /// <param name="mailRequest">Параметры сообщения</param>
+    /// <returns></returns>
+    /// <exception cref="ValidationException">Ошибка валидации</exception>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Post(MailRequest mailRequest)
     {
         var validationResult = _validator.Validate(mailRequest);
