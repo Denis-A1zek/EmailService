@@ -11,7 +11,7 @@ namespace EmailService.Core.Services;
 public class MailDispatcher : IMailDispatcher
 {
     private readonly IEmailSender _emailSender;
-    public readonly IUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
     private readonly IRepository<Message> _messageRepository;
     private readonly IRepository<MailingHistory> _mailingHistoryRepository;
