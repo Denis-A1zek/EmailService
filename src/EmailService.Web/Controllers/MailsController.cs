@@ -1,9 +1,7 @@
 ﻿using EmailService.Core;
 using EmailService.Core.Common;
-using EmailService.Web.Common;
-using EmailService.Web.Models;
+using EmailService.Web.Common.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Mail;
 
 namespace EmailService.Web.Controllers;
 
@@ -24,12 +22,17 @@ public class MailsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(Message message)
+    public async Task<IActionResult> Post(MailRequest mailRequest)
     {
-        var result = await _emailSender.SendMailAsync(message);
+        var sendingResults = await _emailSender
+                                    .SendMailsAsync(new BulkMessage()
+                                    {
+                                        Subject = mailRequest.Subject,
+                                        Body = mailRequest.Body,
+                                        Recipients = mailRequest.Recipients
+                                    });
 
-        return result.Result is Core.Common.Result.Failed ? 
-            BadRequest(Result<int>.Fail(result.FailedMessage)) 
-            : Ok(1);
+
+        return Ok(1);
     }
 }
