@@ -1,41 +1,32 @@
 ﻿using EmailService.Domain;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace EmailService.Infrastructure;
 
 public interface IRepository<TEntity> where TEntity : Identity
 {
-    IQueryable<TEntity> GetQurable();
-    Task<TEntity> GetByIdAsync(ulong id);
-    Task<IEnumerable<TEntity>> GetAllAsync(
-        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null);
-
+    /// <summary>
+    /// Получить сгруппированную коллекцию
+    /// </summary>
+    /// <typeparam name="TKey">Тип селектора</typeparam>
+    /// <param name="keySelector">Селектор для проекции</param>
+    /// <param name="notTracking">Чтобы отключить отслеживание изменений</param>
+    /// <returns></returns>
     Task<IEnumerable<IGrouping<TKey, TEntity>>> GroupByAsync<TKey>
         (Expression<Func<TEntity, TKey>> keySelector, bool notTracking = true);
 
-    Task<IEnumerable<TEntity>> FindAsync
-        (Expression<Func<TEntity, bool>> predicate,
-        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include,
-        bool enableTracking = false);
-    Task<IEnumerable<TEntity>> GetPagedAsync
-        (int pageNumber, int pageSize,
-        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity,
-        object>>? include = null,
-        bool disableTracking = true);
-
-
-    Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>>? predicate = null,
-        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
-        bool disableTracking = true,
-        bool ignoreQueryFilters = false,
-        bool ignoreAutoIncludes = false);
-
+    /// <summary>
+    /// Операция вставки
+    /// </summary>
+    /// <param name="entity">Сущность</param>
+    /// <returns></returns>
     Task InsertAsync(TEntity entity);
+
+    /// <summary>
+    /// Операция вставки
+    /// </summary>
+    /// <param name="entities">Сущности</param>
+    /// <returns></returns>
     Task InsertRangeAsync(IEnumerable<TEntity> entities);
-    void Update(TEntity entity);
-    void Delete(TEntity entity);
 }
+

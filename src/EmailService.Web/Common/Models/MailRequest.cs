@@ -4,11 +4,25 @@ namespace EmailService.Web.Common.Models;
 
 public class MailRequest
 {
-    public string Body { get; set; }
-    public string Subject { get; set; }
-    public IEnumerable<string> Recipients { get; set; }
+    /// <summary>
+    /// Тема сообщения
+    /// </summary>
+    public string Subject { get; init; }
+    
+    /// <summary>
+    /// Тело сообщения
+    /// </summary>
+    public string Body { get; init; }
+
+    /// <summary>
+    /// Получатели
+    /// </summary>
+    public IEnumerable<string> Recipients { get; init; }
 }
 
+/// <summary>
+/// Правила валидации модели MailRequest
+/// </summary>
 public class MailRequestValidator : AbstractValidator<MailRequest>
 {
     public MailRequestValidator()

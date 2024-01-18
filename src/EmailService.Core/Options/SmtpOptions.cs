@@ -1,5 +1,8 @@
 ﻿namespace EmailService.Core;
 
+/// <summary>
+/// Настройки SMPT
+/// </summary>
 public class SmtpOptions
 {
     public string Host { get; set; }

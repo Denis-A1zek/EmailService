@@ -1,6 +1,7 @@
 using EmailService.Core;
 using EmailService.Infrastructure;
 using EmailService.Web;
+using EmailService.Web.Common.Definitions;
 using EmailService.Web.Middleware.Extensions;
 using FluentValidation;
 using System.Reflection;
@@ -29,6 +30,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//app.MigrateDatabase();
 
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
